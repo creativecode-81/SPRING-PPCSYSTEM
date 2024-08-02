@@ -22,19 +22,28 @@ public class STipoDoc {
 	
 	@Autowired
 	JdbcTemplate template;
-		
+	
+	// Listar tipo de documentos
 	public List<TipoDocumento> findAll(){
 		return (List<TipoDocumento>)data.findAll();
 	}
 	
+	// Buscar tipo de documentos por su ID
 	public Optional<TipoDocumento>findById(int id){
 		return data.findById(id);
 	}
 	
+	// Buscar tipo de documentos por su nombre o nombre_corto
+	public List<TipoDocumento> search(String nombre, String nombre_corto) {
+        return data.findBySearchTypeDoc(nombre, nombre_corto);
+    }
+	
+	// Guardar y actualizar tipo de documentos
 	public TipoDocumento save(TipoDocumento t) {
 		return data.save(t);
 	}
 	
+	// Inhabilitar y habilitar tipo de documentos
 	public Optional<TipoDocumento> deleteById(int id) {
 	    Optional<TipoDocumento> tipoDoc = findById(id);
 

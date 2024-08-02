@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import francode.com.Models.Alumno;
@@ -26,6 +27,7 @@ public class CAlumno {
 	@Autowired
 	SAlumno service;
 	
+	// Listar alumnos
 	@GetMapping("/listar")
 	public ResponseEntity<?> listAll() {
 	    try {
@@ -36,7 +38,7 @@ public class CAlumno {
 	    }
 	}
 	
-	
+	// Buscar alumnos por su ID
 	@GetMapping("/find/{id}")
 	public ResponseEntity<?> findById(@PathVariable int id) {
 	    try {
@@ -51,28 +53,51 @@ public class CAlumno {
 	    }
 	}
 	
+	// Buscar alumnos por sus nombres, apellido_paterno, apellido_materno, nro_doc o telefono
+	@GetMapping("/search")
+	public ResponseEntity<?> searchStudents(
+			@RequestParam(required = false) String nombres,
+            @RequestParam(required = false) String apellido_paterno,
+            @RequestParam(required = false) String apellido_materno,
+            @RequestParam(required = false) String nro_doc,
+            @RequestParam(required = false) String telefono) {
+		try {
+            List<Alumno> alumnos = service.search(nombres, apellido_paterno, apellido_materno, nro_doc, telefono);
+            if (!alumnos.isEmpty()) {
+                return ResponseEntity.ok(alumnos);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron alumnos");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar alumnos");
+        }
+	}
+	
+	// Guardar alumnos
 	@PostMapping("/save")
-	public ResponseEntity<?> save(@RequestBody Alumno r) {
+	public ResponseEntity<?> saveStudents(@RequestBody Alumno r) {
 	    try {
-	    	Alumno saveTipoDoc = service.save(r);
-	        return ResponseEntity.ok(saveTipoDoc);
+	    	Alumno saveAlum = service.save(r);
+	        return ResponseEntity.ok(saveAlum);
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el alumno");
 	    }
 	}
 	
+	// Actualizar alumnos
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody Alumno r) {
+	public ResponseEntity<?> updateStudents(@RequestBody Alumno r) {
 	    try {
-	    	Alumno updateTipoDoc = service.save(r);
-	        return ResponseEntity.ok(updateTipoDoc);
+	    	Alumno updateAlum = service.save(r);
+	        return ResponseEntity.ok(updateAlum);
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el alumno");
 	    }
 	}
 	
+	// Inhabilitar y habilitar alumnos
 	@GetMapping("/disable/{id}")
-	public ResponseEntity<?> deleteById(@PathVariable int id) {
+	public ResponseEntity<?> disableStudents(@PathVariable int id) {
 	    try {
 	        Optional<Alumno> alum = service.deleteById(id);
 	        if (alum.isPresent()) {

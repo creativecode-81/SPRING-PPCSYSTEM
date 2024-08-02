@@ -21,19 +21,28 @@ public class SAlumno {
 	
 	@Autowired
 	JdbcTemplate template;
-		
+
+	// Listar alumnos
 	public List<Alumno> findAll(){
 		return (List<Alumno>)data.findAll();
 	}
 	
+	// Buscar alumnos por su ID
 	public Optional<Alumno>findById(int id){
 		return data.findById(id);
 	}
 	
+	// Buscar alumnos por sus nombres, apellido_paterno, apellido_materno, nro_doc o telefono
+	public List<Alumno> search(String nombres, String apellido_paterno, String apellido_materno, String nro_doc, String telefono) {
+	    return data.findBySearch(nombres, apellido_paterno, apellido_materno, nro_doc, telefono);
+	}
+	
+	// Guardar y actualizar alumnos
 	public Alumno save(Alumno t) {
 		return data.save(t);
 	}
 	
+	// Inhabilitar y habilitar alumnos
 	public Optional<Alumno> deleteById(int id) {
 	    Optional<Alumno> alum = findById(id);
 
