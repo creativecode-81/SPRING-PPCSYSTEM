@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import francode.com.Interfaces.ITipoDoc;
 import francode.com.Models.TipoDocumento;
 
-
-
 @Service
 public class STipoDoc {
 	@Autowired
