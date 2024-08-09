@@ -34,7 +34,7 @@ public class Alumno {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tipodoc",nullable = false)
-	private TipoDocumento tipodoc;
+	private TipoDocumento typeDoc;
 
 	@Column(name = "nro_doc")
 	private String nro_doc;

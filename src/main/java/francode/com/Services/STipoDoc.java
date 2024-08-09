@@ -37,9 +37,21 @@ public class STipoDoc {
     }
 	
 	// Guardar y actualizar tipo de documentos
-	public TipoDocumento save(TipoDocumento t) {
-		return data.save(t);
-	}
+    public TipoDocumento save(TipoDocumento td) {
+        // Verificar si el nombre ya está registrado
+        Optional<TipoDocumento> existingByName = data.findByName(td.getNombre());
+        if (existingByName.isPresent() && existingByName.get().getId_tipodoc() != td.getId_tipodoc()) {
+            throw new IllegalArgumentException("Este tipo de documento ya está registrado: " + existingByName.get().getNombre());
+        }
+
+        // Verificar si el nombre corto ya está registrado
+        Optional<TipoDocumento> existingByShortName = data.findByShortName(td.getNombre_corto());
+        if (existingByShortName.isPresent() && existingByShortName.get().getId_tipodoc() != td.getId_tipodoc()) {
+            throw new IllegalArgumentException("Este tipo de documento ya está registrado: " + existingByShortName.get().getNombre_corto());
+        }
+
+        return data.save(td);
+    }
 	
 	// Inhabilitar y habilitar tipo de documentos
 	public Optional<TipoDocumento> deleteById(int id) {

@@ -61,7 +61,7 @@ public class CTipoDoc {
             if (!tipodoc.isEmpty()) {
                 return ResponseEntity.ok(tipodoc);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron tipo de documentos");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron tipos de documentos");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar tipo de documentos");
@@ -70,22 +70,26 @@ public class CTipoDoc {
 	
 	// Guardar tipo de documentos
 	@PostMapping("/save")
-	public ResponseEntity<?> save(@RequestBody TipoDocumento r) {
+	public ResponseEntity<?> save(@RequestBody TipoDocumento td) {
 	    try {
-	    	TipoDocumento saveTipoDoc = service.save(r);
-	        return ResponseEntity.ok(saveTipoDoc);
-	    } catch (Exception e) {
+	    	TipoDocumento saveTypeDoc = service.save(td);
+	        return ResponseEntity.ok(saveTypeDoc);
+	    } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el tipo de documento");
 	    }
 	}
 	
 	// Actualizar tipo de documentos
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody TipoDocumento r) {
+	public ResponseEntity<?> update(@RequestBody TipoDocumento td) {
 	    try {
-	    	TipoDocumento updateTipoDoc = service.save(r);
-	        return ResponseEntity.ok(updateTipoDoc);
-	    } catch (Exception e) {
+	    	TipoDocumento updateTypeDoc = service.save(td);
+	        return ResponseEntity.ok(updateTypeDoc);
+	    } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el tipo de documento");
 	    }
 	}

@@ -65,12 +65,14 @@ public class CPartidoPolitico {
 		}
 	}
 
-	// Guardar partidos políticos
+	// Guardar partidos políticos	
 	@PostMapping("/save")
-	public ResponseEntity<?> savePoliticalParties(@RequestBody PartidoPolitico r) {
+	public ResponseEntity<?> savePoliticalParties(@RequestBody PartidoPolitico p) {
 		try {
-			PartidoPolitico savePartPol = service.save(r);
+			PartidoPolitico savePartPol = service.save(p);
 			return ResponseEntity.ok(savePartPol);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el partido político");
 		}
@@ -78,10 +80,12 @@ public class CPartidoPolitico {
 
 	// Actualizar partidos políticos
 	@PutMapping("/update")
-	public ResponseEntity<?> updatePoliticalParties(@RequestBody PartidoPolitico r) {
+	public ResponseEntity<?> updatePoliticalParties(@RequestBody PartidoPolitico p) {
 		try {
-			PartidoPolitico updatePartPol = service.save(r);
+			PartidoPolitico updatePartPol = service.save(p);
 			return ResponseEntity.ok(updatePartPol);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error al actualizar el partido político");

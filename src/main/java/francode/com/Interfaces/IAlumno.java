@@ -1,6 +1,7 @@
 package francode.com.Interfaces;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,6 +12,15 @@ import francode.com.Models.Alumno;
 
 @Repository
 public interface IAlumno extends CrudRepository<Alumno, Integer>{
+	
+	// Buscar alumnos por su número de documento
+	@Query("SELECT a FROM Alumno a WHERE a.nro_doc = :nro_doc")
+    Optional<Alumno> findByNroDoc(@Param("nro_doc") String nro_doc);
+
+    // Buscar alumnos por su teléfono
+	@Query("SELECT a FROM Alumno a WHERE a.telefono = :telefono")
+    Optional<Alumno> findByPhone(@Param("telefono") String telefono);
+
 	
 	// Buscar alumnos por sus nombres, apellido_paterno, apellido_materno, nro_doc o telefono
 	@Query("SELECT a FROM Alumno a " +

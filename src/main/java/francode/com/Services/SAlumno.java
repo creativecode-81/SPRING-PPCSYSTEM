@@ -37,10 +37,22 @@ public class SAlumno {
 	    return data.findBySearch(nombres, apellido_paterno, apellido_materno, nro_doc, telefono);
 	}
 	
-	// Guardar y actualizar alumnos
-	public Alumno save(Alumno t) {
-		return data.save(t);
-	}
+	// Guardar y actualizar alumnos con validación
+    public Alumno save(Alumno a) {
+        // Verificar si el número de documento ya está registrado
+        Optional<Alumno> existingStudentByDoc = data.findByNroDoc(a.getNro_doc());
+        if (existingStudentByDoc.isPresent() && existingStudentByDoc.get().getId_alumno() != a.getId_alumno()) {
+            throw new IllegalArgumentException("Este número de documento ya pertenece a un alumno");
+        }
+
+        // Verificar si el teléfono ya está registrado
+        Optional<Alumno> existingStudentByPhone = data.findByPhone(a.getTelefono());
+        if (existingStudentByPhone.isPresent() && existingStudentByPhone.get().getId_alumno() != a.getId_alumno()) {
+            throw new IllegalArgumentException("Este número de teléfono ya pertenece a un alumno");
+        }
+
+        return data.save(a);
+    }
 	
 	// Inhabilitar y habilitar alumnos
 	public Optional<Alumno> deleteById(int id) {

@@ -38,10 +38,18 @@ public class SPartidoPolitico {
 		return data.findBySearch(nombre);
 	}
 	
-	// Guardar partidos políticos
-	public PartidoPolitico save(PartidoPolitico t) {
-		return data.save(t);
-	}
+	// Guardar o actualizar partidos políticos
+		public PartidoPolitico save(PartidoPolitico p) {
+			// Verificar si el alumno ya está asociado a otro partido político
+			Optional<PartidoPolitico> existingParty = data.findByAlumnoId(p.getAlumno().getId_alumno());
+
+			if (existingParty.isPresent() && existingParty.get().getId_partido() != p.getId_partido()) {
+				throw new IllegalArgumentException("Este alumno ya pertenece a un partido político");
+			}
+			
+			// Si no está asociado, se procede con el guardado
+			return data.save(p);
+		}
 	
 	// Inhabilitar y habilitar partidos políticos
 	public Optional<PartidoPolitico> deleteById(int id) {

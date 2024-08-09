@@ -73,22 +73,26 @@ public class CAlumno {
 	
 	// Guardar alumnos
 	@PostMapping("/save")
-	public ResponseEntity<?> saveStudents(@RequestBody Alumno r) {
+	public ResponseEntity<?> saveStudents(@RequestBody Alumno a) {
 	    try {
-	    	Alumno saveAlum = service.save(r);
-	        return ResponseEntity.ok(saveAlum);
-	    } catch (Exception e) {
+	    	Alumno saveStudent = service.save(a);
+	        return ResponseEntity.ok(saveStudent);
+	    } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el alumno");
 	    }
 	}
 	
 	// Actualizar alumnos
 	@PutMapping("/update")
-	public ResponseEntity<?> updateStudents(@RequestBody Alumno r) {
+	public ResponseEntity<?> updateStudents(@RequestBody Alumno a) {
 	    try {
-	    	Alumno updateAlum = service.save(r);
-	        return ResponseEntity.ok(updateAlum);
-	    } catch (Exception e) {
+	    	Alumno updateStudent = service.save(a);
+	        return ResponseEntity.ok(updateStudent);
+	    } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el alumno");
 	    }
 	}
